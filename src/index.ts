@@ -7,6 +7,8 @@ import session from 'express-session'
 
 import { todoRouter } from './routes/todo';
 import { vaccineRouter } from './routes/vaccine';
+import { userRouter } from './routes/user';
+import { errorHandler } from './middlewares/error';
 
 
 dotenv.config({ path: './env' });
@@ -44,6 +46,10 @@ mongoose.connect(MONGO_URI, {}, () => {
 //Routes
 app.use(todoRouter);
 app.use(vaccineRouter);
+app.use(userRouter);
+
+//Error
+app.use(errorHandler);
 
 
 server.listen(
