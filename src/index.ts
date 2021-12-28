@@ -6,6 +6,8 @@ import morgan from 'morgan'
 import session from 'express-session'
 
 import { todoRouter } from './routes/todo';
+import { vaccineRouter } from './routes/vaccine';
+
 
 dotenv.config({ path: './env' });
 
@@ -39,7 +41,10 @@ mongoose.connect(MONGO_URI, {}, () => {
   console.log('connected to database' + MONGO_URI)
 })
 
+//Routes
 app.use(todoRouter);
+app.use(vaccineRouter);
+
 
 server.listen(
   PORT,
