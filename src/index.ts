@@ -9,13 +9,11 @@ import { todoRouter } from './routes/todo';
 import { vaccineRouter } from './routes/vaccine';
 import { userRouter } from './routes/user';
 import { errorHandler } from './middlewares/error';
+import { MONGO_URI, PORT } from './utils/constants';
+import { authRouter } from './routes/auth';
 
 
 dotenv.config({ path: './env' });
-
-const PORT = process.env.PORT || 5000;
-const MONGO_URI = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/qr-vaccination-rn';
-
 
 const app = express();
 const server = require("http").Server(app);
@@ -47,6 +45,7 @@ mongoose.connect(MONGO_URI, {}, () => {
 app.use(todoRouter);
 app.use(vaccineRouter);
 app.use(userRouter);
+app.use(authRouter);
 
 //Error
 app.use(errorHandler);

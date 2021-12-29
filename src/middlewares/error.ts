@@ -35,8 +35,5 @@ export const errorHandler = (err: Error, req: Request, res: Response, next: Next
     //     error = new ErrorResponse(message, 400);
     // }
 
-    return res.status(error.statusCode || 500).json({
-        success: false,
-        error: error.message
-    });
+    return res.status(error.statusCode || 500).send(error.message);
 };

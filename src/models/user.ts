@@ -2,8 +2,7 @@ import mongoose from 'mongoose'
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import crypto from 'crypto'
-
-const jwtSecret = process.env.JWT_SECRET || 'holomyth'
+import { JWT_EXPIRE, JWT_SECRET } from '../utils/constants';
 
 interface IUser {
     fullName: string;
@@ -21,17 +20,17 @@ interface UserDoc extends mongoose.Document {
     identityInfo: string;
     phone: string;
     gender: string;
-    createAt: Date;
+    createdAt: Date;
     authenticationToken: string;
     role: string;
+    matchPassword(password: string): boolean; 
 }
-
 
 interface UserModalInterface extends mongoose.Model<UserDoc> {
     build(attr: IUser): UserDoc
 }
 
-const UserSchema = new mongoose.Schema({
+const UserSchema = new mongoose.Schema<UserDoc>({
     fullName: {
         type: String,
         required: [true, "Please add fullName"],
@@ -60,7 +59,7 @@ const UserSchema = new mongoose.Schema({
     },
     createdAt: {
         type: Date,
-        default: Date.now,
+        default: new Date(),
     },
     authenticationToken: String,
     role: {
@@ -94,32 +93,14 @@ UserSchema.pre("save", async function (next) {
 
 // Sign JWT and returnJwtToken
 UserSchema.methods.getSignedJwtToken = function () {
-    return jwt.sign({ id: this._id }, jwtSecret, {
-        expiresIn: process.env.JWT_EXPIRE,
+    return jwt.sign({ id: this._id }, JWT_SECRET, {
+        expiresIn: JWT_EXPIRE,
     });
 };
 
 // Compare Password
 UserSchema.methods.matchPassword = async function (enteredPassword) {
     return await bcrypt.compare(enteredPassword, this.password);
-};
-
-
-// Generate and hash password token
-UserSchema.methods.getResetPasswordToken = function () {
-    // Generate token
-    const resetToken = crypto.randomBytes(20).toString("hex");
-
-    // Hash token and set to resetPasswordToken
-    this.resetPasswordToken = crypto
-        .createHash("sha256")
-        .update(resetToken)
-        .digest("hex");
-
-    // Set expire
-    this.resetPasswordExpire = Date.now() + 10 * 60 * 1000;
-
-    return resetToken;
 };
 
 const User = mongoose.model<UserDoc, UserModalInterface>('User', UserSchema)
