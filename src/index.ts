@@ -11,6 +11,7 @@ import { userRouter } from './routes/user';
 import { errorHandler } from './middlewares/error';
 import { MONGO_URI, PORT } from './utils/constants';
 import { authRouter } from './routes/auth';
+import { registerInfoRouter } from './routes/registerInfo';
 
 
 dotenv.config({ path: './env' });
@@ -46,6 +47,7 @@ app.use(todoRouter);
 app.use(vaccineRouter);
 app.use(userRouter);
 app.use(authRouter);
+app.use(registerInfoRouter);
 
 //Error
 app.use(errorHandler);
