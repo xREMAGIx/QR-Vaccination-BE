@@ -15,7 +15,6 @@ interface IRegisterInfo {
 
 interface RegisterInfoDoc extends mongoose.Document {
     user: typeof User;
-    fullName: string;
     typeOfRegister: string;
     vaccineRegister: typeof Vaccine;
     previousVaccine: typeof Vaccine;

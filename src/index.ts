@@ -12,6 +12,7 @@ import { errorHandler } from './middlewares/error';
 import { MONGO_URI, PORT } from './utils/constants';
 import { authRouter } from './routes/auth';
 import { registerInfoRouter } from './routes/registerInfo';
+import { vaccinationInfoRouter } from './routes/vaccinationInfo';
 
 
 dotenv.config({ path: './env' });
@@ -48,6 +49,7 @@ app.use(vaccineRouter);
 app.use(userRouter);
 app.use(authRouter);
 app.use(registerInfoRouter);
+app.use(vaccinationInfoRouter);
 
 //Error
 app.use(errorHandler);
