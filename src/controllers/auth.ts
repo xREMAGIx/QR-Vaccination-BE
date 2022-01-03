@@ -9,16 +9,16 @@ import { User } from '../models/user';
 // @route POST /api/auth/login
 // @access  Public
 export const login = asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
-    const { fullName, password } = req.body;
+    const { phone, password } = req.body;
 
-    if (!fullName || !password) {
-        return next(new ErrorResponse("Please provide an email and password", 400));
+    if (!phone || !password) {
+        return next(new ErrorResponse("Please provide an phone and password", 400));
     }
 
-    const user = await User.findOne({ fullName }).select("+password");
+    const user = await User.findOne({ phone }).select("+password");
 
     if (!user) {
-        return next(new ErrorResponse("Wrong email", 401));
+        return next(new ErrorResponse("Wrong phone", 401));
     }
 
     // CHeck password
@@ -36,7 +36,7 @@ export const getMe = asyncHandler(async (req: any, res: Response, next: NextFunc
     const user = await User.findById(req.user.id);
 
     console.log("Get me " + user);
-    return res.status(200).send(user);
+    return res.status(200).send({status: 200, data: user});
 });
 
 
@@ -59,7 +59,7 @@ const sendTokenResponse = (user: any, statusCode: any, res: any) => {
     res
         .status(statusCode)
         .cookie("token", token, options)
-        .send(token);
+        .send({status: 200, data: token});
 };
 
 // @des Logout and clear cookie
@@ -71,5 +71,5 @@ export const logout = asyncHandler(async (req: Request, res: Response, next: Nex
         httpOnly: true,
     });
 
-    return res.status(200).json({ success: true, data: {} });
+    return res.status(200).json({status: 200, data: 'Logout success'});
 });

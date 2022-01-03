@@ -12,7 +12,7 @@ export const getUsers = asyncHandler(async (req: Request, res: Response, next: N
         return next(new ErrorResponse("User not found", 404));
     }
 
-    return res.status(200).send(users)
+    return res.status(200).send({status: 200, data: users})
 });
 
 // @des get User
@@ -25,7 +25,7 @@ export const getUser = asyncHandler(async (req: Request, res: Response, next: Ne
         return next(new ErrorResponse("User not found", 404));
     }
 
-    return res.status(200).send(user)
+    return res.status(200).send({status: 200, data: user})
 });
 
 // @des create User
@@ -40,7 +40,7 @@ export const createUser = asyncHandler(async (req: Request, res: Response, next:
         return next(new ErrorResponse("Create user error", 404));
     }
 
-    return res.status(200).send(result)
+    return res.status(200).send({status: 200, data: result})
 });
 
 
