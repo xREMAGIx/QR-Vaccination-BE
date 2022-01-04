@@ -13,7 +13,7 @@ import { MONGO_URI, PORT } from './utils/constants';
 import { authRouter } from './routes/auth';
 import { registerInfoRouter } from './routes/registerInfo';
 import { vaccinationInfoRouter } from './routes/vaccinationInfo';
-
+import { vaccinationPlaceRouter } from './routes/vaccinationPlace';
 
 dotenv.config({ path: './env' });
 
@@ -50,6 +50,7 @@ app.use(userRouter);
 app.use(authRouter);
 app.use(registerInfoRouter);
 app.use(vaccinationInfoRouter);
+app.use(vaccinationPlaceRouter);
 
 //Error
 app.use(errorHandler);

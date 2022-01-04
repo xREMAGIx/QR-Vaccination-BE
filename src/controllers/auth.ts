@@ -35,7 +35,10 @@ export const login = asyncHandler(async (req: Request, res: Response, next: Next
 export const getMe = asyncHandler(async (req: any, res: Response, next: NextFunction) => {
     const user = await User.findById(req.user.id);
 
-    console.log("Get me " + user);
+    if (!user) {
+        return next(new ErrorResponse("Invalid", 401));
+    }
+
     return res.status(200).send({status: 200, data: user});
 });
 

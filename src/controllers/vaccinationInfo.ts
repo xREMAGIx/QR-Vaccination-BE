@@ -7,7 +7,7 @@ import { Request, Response } from 'express'
 // @access  Public
 export const getVaccinationInfos = asyncHandler(async (req: Request, res: Response) => {
     const vaccinationInfo = await VaccinationInfo.find()
-    return res.status(200).send(vaccinationInfo)
+    return res.status(200).send({status: 200, data: vaccinationInfo})
 });
 
 // @des Create vaccinationInfo
@@ -18,5 +18,5 @@ export const createVaccinationInfo = asyncHandler(async (req: Request, res: Resp
     const vaccinationInfo = VaccinationInfo.build({ registerInfoId, doctorId, temperature, bpm, isValid, reason })
     const result = await vaccinationInfo.save()
 
-    return res.status(200).send(result)
+    return res.status(200).send({status: 200, data: result})
 });

@@ -6,8 +6,9 @@ import express, { Request, Response } from 'express'
 // @route GET /api/registerInfo/
 // @access  Public
 export const getRegisterInfos = asyncHandler(async (req: Request, res: Response) => {
-    const registerInfo = await RegisterInfo.find()
-    return res.status(200).send(registerInfo)
+    const registerInfo = await RegisterInfo.find().populate('user').populate('vaccineRegister')
+
+    return res.status(200).send({status: 200, data: registerInfo})
 });
 
 // @des Create registerInfo
@@ -18,5 +19,5 @@ export const createRegisterInfo = asyncHandler(async (req: Request, res: Respons
     const registerInfo = RegisterInfo.build({ userId, typeOfRegister, vaccineRegisterId, previousVaccineId, previousVaccineDate, illnessHistory, recentSymptom, contactF0 })
     const result = await registerInfo.save()
 
-    return res.status(200).send(result)
+    return res.status(200).send({status: 200, data: result})
 });

@@ -7,6 +7,6 @@ import { getUsers, getUser, createUser } from '../controllers/user';
 const router = express.Router();
 
 router.route("/api/user").get(protect, getUsers).post(createUser);
-router.route("/api/user/:id").get(protect, roleProtect("admin"), getUser);
+router.route("/api/user/:id").get(protect, getUser);
 
 export { router as userRouter }
